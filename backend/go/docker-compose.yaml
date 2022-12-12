@@ -1,0 +1,21 @@
+version: "3"
+
+volumes:
+  # locally bound volume so that the database can be explored on the host
+  dbdata:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: './dbdata'
+
+services:
+  cerberus-example-app:
+    build: .
+    container_name: cerberus-example
+    ports:
+      - "8081:8081"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - dbdata:/app/dbdata
