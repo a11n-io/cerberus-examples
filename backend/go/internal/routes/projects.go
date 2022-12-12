@@ -14,11 +14,10 @@ type ProjectData struct {
 
 type projectRoutes struct {
 	service services.ProjectService
-	//cerberusClient cerberus.CerberusClient
 }
 
-func NewProjectRoutes(service services.ProjectService /* cerberusClient cerberus.CerberusClient*/) Routable {
-	return &projectRoutes{service: service /*, cerberusClient: cerberusClient*/}
+func NewProjectRoutes(service services.ProjectService) Routable {
+	return &projectRoutes{service: service}
 }
 
 func (r *projectRoutes) RegisterRoutes(rg *gin.RouterGroup) {
@@ -37,12 +36,6 @@ func (r *projectRoutes) Create(c *gin.Context) {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing accountId")))
 		return
 	}
-
-	//hasAccess, err := r.cerberusClient.HasAccess(c, accountId, common.CreateProject_A)
-	//if err != nil || !hasAccess {
-	//	c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
-	//	return
-	//}
 
 	if err := c.Bind(&projectData); err != nil {
 		c.AbortWithStatusJSON(400, jsonError(err))
@@ -64,11 +57,6 @@ func (r *projectRoutes) Create(c *gin.Context) {
 }
 
 func (r *projectRoutes) FindAll(c *gin.Context) {
-	//userId, exists := c.Get("userId")
-	//if !exists {
-	//	c.AbortWithStatusJSON(401, jsonError(fmt.Errorf("unauthorized")))
-	//}
-
 	accountId := c.Param("accountId")
 	if accountId == "" {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing accountId")))
@@ -95,12 +83,6 @@ func (r *projectRoutes) Get(c *gin.Context) {
 		return
 	}
 
-	//hasAccess, err := r.cerberusClient.HasAccess(c, projectId, common.ReadProject_A)
-	//if err != nil || !hasAccess {
-	//	c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
-	//	return
-	//}
-
 	project, err := r.service.Get(
 		c,
 		projectId,
@@ -120,12 +102,6 @@ func (r *projectRoutes) Delete(c *gin.Context) {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing projectId")))
 		return
 	}
-
-	//hasAccess, err := r.cerberusClient.HasAccess(c, projectId, common.DeleteProject_A)
-	//if err != nil || !hasAccess {
-	//	c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
-	//	return
-	//}
 
 	err := r.service.Delete(
 		c,

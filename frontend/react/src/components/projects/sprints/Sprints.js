@@ -4,7 +4,6 @@ import Loader from "../../../uikit/Loader";
 import {Routes, Route, Link} from "react-router-dom";
 import Sprint from "./Sprint";
 import CreateSprint from "./CreateSprint";
-// import {AccessGuard} from "@a11n-io/cerberus-reactjs";
 import {ProjectContext} from "../ProjectContext";
 
 export default function Sprints() {
@@ -54,31 +53,24 @@ function SprintList(props) {
                 sprints.map(sprint => {
                     return (
                         <li className="nav-item" key={sprint.id}>
-                            {/*<AccessGuard*/}
-                            {/*    resourceId={sprint.id}*/}
-                            {/*    action="ReadSprint"*/}
-                            {/*    otherwise={<span>{sprint.sprintNumber}: {sprint.goal}</span>}>*/}
                                 <Link to={`/sprints/${sprint.id}`}>
                                     <i>{sprint.sprintNumber}: {sprint.goal}</i>
                                     <i className="m-1">&#8594;</i>
                                 </Link>
-                            {/*</AccessGuard>*/}
                         </li>
                     )
                 })
             }
         </ul>
 
-        {/*<AccessGuard resourceId={project.id} action="CreateSprint">*/}
-            {
-                !showCreate && <Link to="" onClick={handleNewClicked}>New Sprint</Link>
-            }
-            {
-                showCreate && <CreateSprint
-                    sprints={sprints}
-                    setSprints={setSprints}
-                    setShowCreate={setShowCreate}/>
-            }
-        {/*</AccessGuard>*/}
+        {
+            !showCreate && <Link to="" onClick={handleNewClicked}>New Sprint</Link>
+        }
+        {
+            showCreate && <CreateSprint
+                sprints={sprints}
+                setSprints={setSprints}
+                setShowCreate={setShowCreate}/>
+        }
     </>
 }

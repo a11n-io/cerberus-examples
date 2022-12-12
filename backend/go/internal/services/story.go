@@ -19,17 +19,14 @@ type StoryService interface {
 type storyService struct {
 	txProvider database.TxProvider
 	repo       repositories.StoryRepo
-	//cerberusClient cerberus.CerberusClient
 }
 
 func NewStoryService(
 	txProvider database.TxProvider,
-	repo repositories.StoryRepo,
-	/*cerberusClient cerberus.CerberusClient*/) StoryService {
+	repo repositories.StoryRepo) StoryService {
 	return &storyService{
 		txProvider: txProvider,
 		repo:       repo,
-		//cerberusClient: cerberusClient,
 	}
 }
 
@@ -52,14 +49,6 @@ func (s *storyService) Create(ctx context.Context, sprintId, description string)
 		}
 		return repositories.Story{}, err
 	}
-
-	//err = s.cerberusClient.Execute(ctx, s.cerberusClient.CreateResourceCmd(story.Id, sprintId, common.Story_RT))
-	//if err != nil {
-	//	if rbe := tx.Rollback(); rbe != nil {
-	//		err = fmt.Errorf("rollback error (%v) after %w", rbe, err)
-	//	}
-	//	return repositories.Story{}, err
-	//}
 
 	return story, tx.Commit()
 }

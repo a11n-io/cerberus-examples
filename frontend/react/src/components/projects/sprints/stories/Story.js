@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import useFetch from "../../../../hooks/useFetch";
 import Loader from "../../../../uikit/Loader";
 import {Form, Tab, Tabs} from "react-bootstrap";
-// import {AccessGuard, Permissions, useAccess} from "@a11n-io/cerberus-reactjs";
 
 export default function Story(props) {
     const {story, setSelectedStory, setStories} = props
@@ -14,7 +13,6 @@ export default function Story(props) {
     return <>
         <Tabs defaultActiveKey="details">
             <Tab eventKey="details" title="Details"><Dashboard story={story} setSelectedStory={setSelectedStory} setStories={setStories}/></Tab>
-            {/*<Tab eventKey="permissions" title="Permissions"><StoryPermissions story={story}/></Tab>*/}
         </Tabs>
     </>
 }
@@ -26,14 +24,7 @@ function Dashboard(props) {
     const [estimate, setEstimate] = useState(0)
     const [status, setStatus] = useState("")
     const [assignee, setAssignee] = useState("")
-    // const [estimateAccess, setEstimateAccess] = useState(false)
-    // const [statusAccess, setStatusAccess] = useState(false)
-    // const [assigneeAccess, setAssigneeAccess] = useState(false)
     const {story, setSelectedStory, setStories} = props
-
-    // useAccess(story.id, "EstimateStory", setEstimateAccess)
-    // useAccess(story.id, "ChangeStoryStatus", setStatusAccess)
-    // useAccess(story.id, "ChangeStoryAssignee", setAssigneeAccess)
 
     useEffect(() => {
         get("users")
@@ -100,11 +91,11 @@ function Dashboard(props) {
         <Form className="mb-5">
             <Form.Group className="mb-3">
                 <Form.Label>Estimate</Form.Label>
-                <Form.Control /*disabled={!estimateAccess}*/ type="number" value={estimate} onChange={handleEstimateChange} onBlur={handleEstimateBlur}/>
+                <Form.Control type="number" value={estimate} onChange={handleEstimateChange} onBlur={handleEstimateBlur}/>
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Status</Form.Label>
-                <Form.Select /*disabled={!statusAccess}*/ value={status} onChange={handleStatusChange}>
+                <Form.Select value={status} onChange={handleStatusChange}>
                     <option value="todo">todo</option>
                     <option value="busy">busy</option>
                     <option value="done">done</option>
@@ -112,7 +103,7 @@ function Dashboard(props) {
             </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Assignee</Form.Label>
-                <Form.Select /*disabled={!assigneeAccess}*/ value={assignee} onChange={handleAssigneeChange}>
+                <Form.Select value={assignee} onChange={handleAssigneeChange}>
                     {
                         users.map(user => {
                             return (
@@ -125,13 +116,3 @@ function Dashboard(props) {
         </Form>
     </>
 }
-
-// function StoryPermissions(props) {
-//     const {story} = props
-//
-//     return <>
-//         <AccessGuard resourceId={story.id} action="ReadStoryPermissions">
-//             <Permissions resourceId={story.id} changeAction="ChangeStoryPermissions"/>
-//         </AccessGuard>
-//     </>
-// }

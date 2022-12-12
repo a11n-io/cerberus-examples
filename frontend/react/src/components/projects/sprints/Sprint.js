@@ -5,7 +5,6 @@ import useFetch from "../../../hooks/useFetch";
 import Loader from "../../../uikit/Loader";
 import Btn from "../../../uikit/Btn";
 import Stories from "./stories/Stories";
-// import {AccessGuard, Permissions} from "@a11n-io/cerberus-reactjs";
 import {Card, Tab, Tabs} from "react-bootstrap";
 import {ProjectContext} from "../ProjectContext";
 
@@ -49,7 +48,6 @@ function Dashboard() {
                 <Tabs defaultActiveKey="stories">
                     <Tab eventKey="stories" title="Stories" className="m-2"><Stories /></Tab>
                     <Tab eventKey="details" title="Details" className="m-2"><Details /></Tab>
-                    {/*<Tab eventKey="permissions" title="Permissions" className="m-2"><SprintPermissions /></Tab>*/}
                 </Tabs>
             </Card.Body>
         </Card>
@@ -96,18 +94,6 @@ function ChangeSprint(props) {
     }
 
     return <>
-        {/*<AccessGuard resourceId={sprintCtx.sprint.id} action="StartSprint">*/}
-            <Btn onClick={handleButtonClicked}>{start ? "Start" : "End"} sprint</Btn>
-        {/*</AccessGuard>*/}
+        <Btn onClick={handleButtonClicked}>{start ? "Start" : "End"} sprint</Btn>
     </>
 }
-
-// function SprintPermissions() {
-//     const sprintCtx = useContext(SprintContext)
-//
-//     return <>
-//         <AccessGuard resourceId={sprintCtx.sprint.id} action="ReadSprintPermissions">
-//             <Permissions resourceId={sprintCtx.sprint.id} changeAction="ChangeSprintPermissions"/>
-//         </AccessGuard>
-//     </>
-// }

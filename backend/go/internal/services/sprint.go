@@ -18,17 +18,14 @@ type SprintService interface {
 type sprintService struct {
 	txProvider database.TxProvider
 	repo       repositories.SprintRepo
-	//cerberusClient cerberus.CerberusClient
 }
 
 func NewSprintService(
 	txProvider database.TxProvider,
-	repo repositories.SprintRepo,
-	/*cerberusClient cerberus.CerberusClient*/) SprintService {
+	repo repositories.SprintRepo) SprintService {
 	return &sprintService{
 		txProvider: txProvider,
 		repo:       repo,
-		//cerberusClient: cerberusClient,
 	}
 }
 
@@ -51,14 +48,6 @@ func (s *sprintService) Create(ctx context.Context, projectId, goal string) (rep
 		}
 		return repositories.Sprint{}, err
 	}
-
-	//err = s.cerberusClient.Execute(ctx, s.cerberusClient.CreateResourceCmd(sprint.Id, projectId, common.Sprint_RT))
-	//if err != nil {
-	//	if rbe := tx.Rollback(); rbe != nil {
-	//		err = fmt.Errorf("rollback error (%v) after %w", rbe, err)
-	//	}
-	//	return repositories.Sprint{}, err
-	//}
 
 	return sprint, tx.Commit()
 }

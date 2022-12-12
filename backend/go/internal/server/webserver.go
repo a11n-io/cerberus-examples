@@ -90,15 +90,9 @@ func (s *webServer) JWTAuthRequired(c *gin.Context) {
 		return
 	}
 
-	//cerberusTokenPair := cerberus.TokenPair{
-	//	AccessToken:  c.GetHeader("CerberusAccessToken"),
-	//	RefreshToken: c.GetHeader("CerberusRefreshToken"),
-	//}
-
 	// Set userId and cerberusToken for route handlers
 	c.Set("userId", userId)
 	c.Set("accountId", accountId)
-	//c.Set("cerberusTokenPair", cerberusTokenPair)
 
 	c.Next()
 }
