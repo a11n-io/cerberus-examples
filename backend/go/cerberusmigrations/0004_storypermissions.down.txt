@@ -1,0 +1,6 @@
+
+(da "Story" "ReadStoryPermissions")
+(da "Story" "ChangeStoryPermissions")
+
+(dp "CanManageStory")
+(dp "CanReadStory")

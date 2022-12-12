@@ -1,0 +1,18 @@
+
+(atp "Account" "ReadAccountPermissions" "CanManageAccount")
+(atp "Project" "ReadProjectPermissions" "CanManageAccount")
+(atp "Sprint" "ReadSprintPermissions" "CanManageAccount")
+
+(atp "Project" "ReadProjectPermissions" "CanManageProject")
+(atp "Sprint" "ReadSprintPermissions" "CanManageProject")
+
+(atp "Sprint" "ReadSprintPermissions" "CanManageSprint")
+
+(atp "Account" "ReadAccountPermissions" "CanReadAccount")
+(atp "Project" "ReadProjectPermissions" "CanReadAccount")
+(atp "Sprint" "ReadSprintPermissions" "CanReadAccount")
+
+(atp "Project" "ReadProjectPermissions" "CanReadProject")
+(atp "Sprint" "ReadSprintPermissions" "CanReadProject")
+
+(atp "Sprint" "ReadSprintPermissions" "CanReadSprint")

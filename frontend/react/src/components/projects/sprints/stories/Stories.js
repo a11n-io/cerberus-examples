@@ -5,6 +5,7 @@ import {Routes, Route} from "react-router-dom";
 import CreateStory from "./CreateStory";
 import Story from "./Story";
 import {SprintContext} from "../SprintContext";
+import {AccessGuard, useAccess} from "@a11n-io/cerberus-reactjs";
 import {Col, Container, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 
 export default function Stories() {
@@ -67,7 +68,9 @@ function StoryList() {
                     {
                         selectedStory
                             ? <Story story={selectedStory} setSelectedStory={setSelectedStory} setStories={setStories}/>
-                            : <CreateStory setStories={setStories}/>
+                            : <AccessGuard resourceId={sprintCtx.sprint.id} action="CreateStory">
+                                    <CreateStory setStories={setStories}/>
+                              </AccessGuard>
                     }
                 </Col>
             </Row>
@@ -76,8 +79,12 @@ function StoryList() {
 }
 
 function StoryButton(props) {
+    const [readAccess, setReadAccess] = useState(false)
+    useAccess(props.story.id, "ReadStory", setReadAccess)
+
     return <>
         <ListGroupItem
+            disabled={!readAccess}
             action
             active={props.selectedStory && props.selectedStory.id === props.story.id}
             onClick={props.handleStorySelected}

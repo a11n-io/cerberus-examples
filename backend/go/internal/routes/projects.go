@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/services"
 	"fmt"
+	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -13,11 +15,12 @@ type ProjectData struct {
 }
 
 type projectRoutes struct {
-	service services.ProjectService
+	service        services.ProjectService
+	cerberusClient cerberus.CerberusClient
 }
 
-func NewProjectRoutes(service services.ProjectService) Routable {
-	return &projectRoutes{service: service}
+func NewProjectRoutes(service services.ProjectService, cerberusClient cerberus.CerberusClient) Routable {
+	return &projectRoutes{service: service, cerberusClient: cerberusClient}
 }
 
 func (r *projectRoutes) RegisterRoutes(rg *gin.RouterGroup) {
@@ -34,6 +37,12 @@ func (r *projectRoutes) Create(c *gin.Context) {
 	accountId := c.Param("accountId")
 	if accountId == "" {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing accountId")))
+		return
+	}
+
+	hasAccess, err := r.cerberusClient.HasAccess(c, accountId, common.CreateProject_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
 	}
 
@@ -57,6 +66,7 @@ func (r *projectRoutes) Create(c *gin.Context) {
 }
 
 func (r *projectRoutes) FindAll(c *gin.Context) {
+
 	accountId := c.Param("accountId")
 	if accountId == "" {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing accountId")))
@@ -83,6 +93,12 @@ func (r *projectRoutes) Get(c *gin.Context) {
 		return
 	}
 
+	hasAccess, err := r.cerberusClient.HasAccess(c, projectId, common.ReadProject_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
+
 	project, err := r.service.Get(
 		c,
 		projectId,
@@ -103,7 +119,13 @@ func (r *projectRoutes) Delete(c *gin.Context) {
 		return
 	}
 
-	err := r.service.Delete(
+	hasAccess, err := r.cerberusClient.HasAccess(c, projectId, common.DeleteProject_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
+
+	err = r.service.Delete(
 		c,
 		projectId,
 	)

@@ -1,0 +1,18 @@
+
+(rfp "Account" "ReadAccountPermissions" "CanManageAccount")
+(rfp "Account" "ReadProjectPermissions" "CanManageAccount")
+(rfp "Account" "ReadSprintPermissions" "CanManageAccount")
+
+(rfp "Project" "ReadProjectPermissions" "CanManageProject")
+(rfp "Project" "ReadSprintPermissions" "CanManageProject")
+
+(rfp "Sprint" "ReadSprintPermissions" "CanManageSprint")
+
+(rfp "Project" "ReadAccountPermissions" "CanReadAccount")
+(rfp "Sprint" "ReadProjectPermissions" "CanReadAccount")
+(rfp "Story" "ReadSprintPermissions" "CanReadAccount")
+
+(rfp "Project" "ReadProjectPermissions" "CanReadProject")
+(rfp "Sprint" "ReadSprintPermissions" "CanReadProject")
+
+(rfp "Sprint" "ReadSprintPermissions" "CanReadSprint")

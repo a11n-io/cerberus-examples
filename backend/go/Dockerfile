@@ -14,6 +14,7 @@ FROM alpine
 COPY --from=backend-builder /app/api /app/
 COPY --from=backend-builder /app/.env.dev /app/
 COPY --from=backend-builder /app/migrations /app/migrations
+COPY --from=backend-builder /app/cerberusmigrations /app/cerberusmigrations
 RUN apk add --no-cache bash busybox-extras
 ENV GIN_MODE=release
 WORKDIR /app

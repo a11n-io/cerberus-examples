@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/services"
 	"fmt"
+	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -13,11 +15,12 @@ type SprintData struct {
 }
 
 type sprintRoutes struct {
-	service services.SprintService
+	service        services.SprintService
+	cerberusClient cerberus.CerberusClient
 }
 
-func NewSprintRoutes(service services.SprintService) Routable {
-	return &sprintRoutes{service: service}
+func NewSprintRoutes(service services.SprintService, cerberusClient cerberus.CerberusClient) Routable {
+	return &sprintRoutes{service: service, cerberusClient: cerberusClient}
 }
 
 func (r *sprintRoutes) RegisterRoutes(rg *gin.RouterGroup) {
@@ -35,6 +38,12 @@ func (r *sprintRoutes) Create(c *gin.Context) {
 	projectId := c.Param("projectId")
 	if projectId == "" {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing projectId")))
+		return
+	}
+
+	hasAccess, err := r.cerberusClient.HasAccess(c, projectId, common.CreateSprint_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
 	}
 
@@ -90,6 +99,12 @@ func (r *sprintRoutes) Start(c *gin.Context) {
 		return
 	}
 
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.StartSprint_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
+
 	rts, err := r.service.Start(
 		c,
 		sprintId,
@@ -110,6 +125,12 @@ func (r *sprintRoutes) End(c *gin.Context) {
 		return
 	}
 
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.EndSprint_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
+
 	rts, err := r.service.End(
 		c,
 		sprintId,
@@ -127,6 +148,12 @@ func (r *sprintRoutes) Get(c *gin.Context) {
 	sprintId := c.Param("sprintId")
 	if sprintId == "" {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing sprintId")))
+		return
+	}
+
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.ReadSprint_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
 	}
 

@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/services"
 	"fmt"
+	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -16,13 +18,12 @@ type StoryData struct {
 }
 
 type storyRoutes struct {
-	service services.StoryService
+	service        services.StoryService
+	cerberusClient cerberus.CerberusClient
 }
 
-func NewStoryRoutes(service services.StoryService) Routable {
-	return &storyRoutes{
-		service: service,
-	}
+func NewStoryRoutes(service services.StoryService, cerberusClient cerberus.CerberusClient) Routable {
+	return &storyRoutes{service: service, cerberusClient: cerberusClient}
 }
 
 func (r *storyRoutes) RegisterRoutes(rg *gin.RouterGroup) {
@@ -41,6 +42,12 @@ func (r *storyRoutes) Create(c *gin.Context) {
 	sprintId := c.Param("sprintId")
 	if sprintId == "" {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing sprintId")))
+		return
+	}
+
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.CreateStory_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
 	}
 
@@ -90,6 +97,12 @@ func (r *storyRoutes) Get(c *gin.Context) {
 		return
 	}
 
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ReadStory_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
+
 	story, err := r.service.Get(
 		c,
 		storyId,
@@ -107,6 +120,12 @@ func (r *storyRoutes) Estimate(c *gin.Context) {
 	storyId := c.Param("storyId")
 	if storyId == "" {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing storyId")))
+		return
+	}
+
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.EstimateStory_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
 	}
 
@@ -143,6 +162,12 @@ func (r *storyRoutes) ChangeStatus(c *gin.Context) {
 		return
 	}
 
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryStatus_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
+
 	var data StoryData
 
 	if err := c.Bind(&data); err != nil {
@@ -168,6 +193,12 @@ func (r *storyRoutes) Assign(c *gin.Context) {
 	storyId := c.Param("storyId")
 	if storyId == "" {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("missing storyId")))
+		return
+	}
+
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryAssignee_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
 	}
 
