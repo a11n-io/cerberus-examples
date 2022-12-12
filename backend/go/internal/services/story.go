@@ -1,10 +1,12 @@
 package services
 
 import (
+	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/database"
 	"cerberus-examples/internal/repositories"
 	"context"
 	"fmt"
+	cerberus "github.com/a11n-io/go-cerberus"
 )
 
 type StoryService interface {
@@ -17,19 +19,19 @@ type StoryService interface {
 }
 
 type storyService struct {
-	txProvider database.TxProvider
-	repo       repositories.StoryRepo
-	//cerberusClient cerberus.CerberusClient
+	txProvider     database.TxProvider
+	repo           repositories.StoryRepo
+	cerberusClient cerberus.CerberusClient
 }
 
 func NewStoryService(
 	txProvider database.TxProvider,
 	repo repositories.StoryRepo,
-	/*cerberusClient cerberus.CerberusClient*/) StoryService {
+	cerberusClient cerberus.CerberusClient) StoryService {
 	return &storyService{
-		txProvider: txProvider,
-		repo:       repo,
-		//cerberusClient: cerberusClient,
+		txProvider:     txProvider,
+		repo:           repo,
+		cerberusClient: cerberusClient,
 	}
 }
 
@@ -53,13 +55,13 @@ func (s *storyService) Create(ctx context.Context, sprintId, description string)
 		return repositories.Story{}, err
 	}
 
-	//err = s.cerberusClient.Execute(ctx, s.cerberusClient.CreateResourceCmd(story.Id, sprintId, common.Story_RT))
-	//if err != nil {
-	//	if rbe := tx.Rollback(); rbe != nil {
-	//		err = fmt.Errorf("rollback error (%v) after %w", rbe, err)
-	//	}
-	//	return repositories.Story{}, err
-	//}
+	err = s.cerberusClient.Execute(ctx, s.cerberusClient.CreateResourceCmd(story.Id, sprintId, common.Story_RT))
+	if err != nil {
+		if rbe := tx.Rollback(); rbe != nil {
+			err = fmt.Errorf("rollback error (%v) after %w", rbe, err)
+		}
+		return repositories.Story{}, err
+	}
 
 	return story, tx.Commit()
 }

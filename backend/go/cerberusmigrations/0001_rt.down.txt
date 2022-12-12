@@ -1,0 +1,11 @@
+(drt "Account")
+(drt "Project")
+(drt "Sprint")
+(drt "Story")
+
+(dp "CanManageAccount")
+(dp "CanManageProject")
+(dp "CanManageSprint")
+(dp "CanReadAccount")
+(dp "CanReadProject")
+(dp "CanReadSprint")

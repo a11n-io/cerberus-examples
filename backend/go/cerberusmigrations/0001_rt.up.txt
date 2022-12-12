@@ -1,0 +1,91 @@
+; Create Resource Types
+(crt "Account" "")
+(crt "Project" "Account")
+(crt "Sprint" "Project")
+(crt "Story" "Sprint")
+
+; Create Account Actions
+(ca "Account" "CreateProject")
+(ca "Account" "AddUser")
+(ca "Account" "ChangeAccountPermissions")
+
+; Create Project Actions
+(ca "Project" "ReadProject")
+(ca "Project" "DeleteProject")
+(ca "Project" "CreateSprint")
+(ca "Project" "ChangeProjectPermissions")
+
+; Create Sprint Actions
+(ca "Sprint" "ReadSprint")
+(ca "Sprint" "StartSprint")
+(ca "Sprint" "EndSprint")
+(ca "Sprint" "CreateStory")
+(ca "Sprint" "ChangeSprintPermissions")
+
+; Create Story Actions
+(ca "Story" "ReadStory")
+(ca "Story" "EstimateStory")
+(ca "Story" "ChangeStoryStatus")
+(ca "Story" "ChangeStoryAssignee")
+
+; Create Policies
+(cp "CanManageAccount" "manage everything in the account, including settings, projects, sprints and stories")
+(cp "CanManageProject" "manage everything in the project, including sprints and stories")
+(cp "CanManageSprint" "manage everything in the sprint, including stories")
+
+(cp "CanReadAccount" "read everything in the account, including projects, sprints and stories")
+(cp "CanReadProject" "read everything in the project, including sprints and stories")
+(cp "CanReadSprint" "read everything in the sprint, including stories")
+
+; Add Actions to Policies
+(atp "Account" "CreateProject" "CanManageAccount")
+(atp "Account" "AddUser" "CanManageAccount")
+(atp "Account" "ChangeAccountPermissions" "CanManageAccount")
+(atp "Project" "ReadProject" "CanManageAccount")
+(atp "Project" "DeleteProject" "CanManageAccount")
+(atp "Project" "CreateSprint" "CanManageAccount")
+(atp "Project" "ChangeProjectPermissions" "CanManageAccount")
+(atp "Sprint" "ReadSprint" "CanManageAccount")
+(atp "Sprint" "StartSprint" "CanManageAccount")
+(atp "Sprint" "EndSprint" "CanManageAccount")
+(atp "Sprint" "CreateStory" "CanManageAccount")
+(atp "Sprint" "ChangeSprintPermissions" "CanManageAccount")
+(atp "Story" "ReadStory" "CanManageAccount")
+(atp "Story" "EstimateStory" "CanManageAccount")
+(atp "Story" "ChangeStoryStatus" "CanManageAccount")
+(atp "Story" "ChangeStoryAssignee" "CanManageAccount")
+
+(atp "Project" "ReadProject" "CanManageProject")
+(atp "Project" "DeleteProject" "CanManageProject")
+(atp "Project" "CreateSprint" "CanManageProject")
+(atp "Project" "ChangeProjectPermissions" "CanManageProject")
+(atp "Sprint" "ReadSprint" "CanManageProject")
+(atp "Sprint" "StartSprint" "CanManageProject")
+(atp "Sprint" "EndSprint" "CanManageProject")
+(atp "Sprint" "CreateStory" "CanManageProject")
+(atp "Sprint" "ChangeSprintPermissions" "CanManageProject")
+(atp "Story" "ReadStory" "CanManageProject")
+(atp "Story" "EstimateStory" "CanManageProject")
+(atp "Story" "ChangeStoryStatus" "CanManageProject")
+(atp "Story" "ChangeStoryAssignee" "CanManageProject")
+
+(atp "Sprint" "ReadSprint" "CanManageSprint")
+(atp "Sprint" "StartSprint" "CanManageSprint")
+(atp "Sprint" "EndSprint" "CanManageSprint")
+(atp "Sprint" "CreateStory" "CanManageSprint")
+(atp "Sprint" "ChangeSprintPermissions" "CanManageSprint")
+(atp "Story" "ReadStory" "CanManageSprint")
+(atp "Story" "EstimateStory" "CanManageSprint")
+(atp "Story" "ChangeStoryStatus" "CanManageSprint")
+(atp "Story" "ChangeStoryAssignee" "CanManageSprint")
+
+(atp "Project" "ReadProject" "CanReadAccount")
+(atp "Sprint" "ReadSprint" "CanReadAccount")
+(atp "Story" "ReadStory" "CanReadAccount")
+
+(atp "Project" "ReadProject" "CanReadProject")
+(atp "Sprint" "ReadSprint" "CanReadProject")
+(atp "Story" "ReadStory" "CanReadProject")
+
+(atp "Sprint" "ReadSprint" "CanReadSprint")
+(atp "Story" "ReadStory" "CanReadSprint")

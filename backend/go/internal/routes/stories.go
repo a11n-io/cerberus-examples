@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/services"
 	"fmt"
+	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -16,15 +18,12 @@ type StoryData struct {
 }
 
 type storyRoutes struct {
-	service services.StoryService
-	//cerberusClient cerberus.CerberusClient
+	service        services.StoryService
+	cerberusClient cerberus.CerberusClient
 }
 
-func NewStoryRoutes(service services.StoryService /*, cerberusClient cerberus.CerberusClient*/) Routable {
-	return &storyRoutes{
-		service: service,
-		//cerberusClient: cerberusClient,
-	}
+func NewStoryRoutes(service services.StoryService, cerberusClient cerberus.CerberusClient) Routable {
+	return &storyRoutes{service: service, cerberusClient: cerberusClient}
 }
 
 func (r *storyRoutes) RegisterRoutes(rg *gin.RouterGroup) {
@@ -46,11 +45,11 @@ func (r *storyRoutes) Create(c *gin.Context) {
 		return
 	}
 
-	//hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.CreateStory_A)
-	//if err != nil || !hasAccess {
-	//	c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
-	//	return
-	//}
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.CreateStory_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
 
 	if err := c.Bind(&data); err != nil {
 		c.AbortWithStatusJSON(400, jsonError(err))
@@ -98,11 +97,11 @@ func (r *storyRoutes) Get(c *gin.Context) {
 		return
 	}
 
-	//hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ReadStory_A)
-	//if err != nil || !hasAccess {
-	//	c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
-	//	return
-	//}
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ReadStory_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
 
 	story, err := r.service.Get(
 		c,
@@ -124,11 +123,11 @@ func (r *storyRoutes) Estimate(c *gin.Context) {
 		return
 	}
 
-	//hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.EstimateStory_A)
-	//if err != nil || !hasAccess {
-	//	c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
-	//	return
-	//}
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.EstimateStory_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
 
 	var data StoryData
 
@@ -163,11 +162,11 @@ func (r *storyRoutes) ChangeStatus(c *gin.Context) {
 		return
 	}
 
-	//hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryStatus_A)
-	//if err != nil || !hasAccess {
-	//	c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
-	//	return
-	//}
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryStatus_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
 
 	var data StoryData
 
@@ -197,11 +196,11 @@ func (r *storyRoutes) Assign(c *gin.Context) {
 		return
 	}
 
-	//hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryAssignee_A)
-	//if err != nil || !hasAccess {
-	//	c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
-	//	return
-	//}
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryAssignee_A)
+	if err != nil || !hasAccess {
+		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
+		return
+	}
 
 	var data StoryData
 

@@ -1,7 +1,7 @@
 import useFetch from "../../hooks/useFetch";
 import Loader from "../../uikit/Loader";
 import Sprints from "./sprints/Sprints";
-// import {AccessGuard, Permissions} from "@a11n-io/cerberus-reactjs";
+import {AccessGuard, Permissions} from "@a11n-io/cerberus-reactjs";
 import {Button, Tab, Tabs} from "react-bootstrap";
 import {useContext} from "react";
 import {ProjectContext} from "./ProjectContext";
@@ -17,7 +17,7 @@ export default function Project(props) {
         <Tabs defaultActiveKey="sprints">
             <Tab eventKey="sprints" title="Sprints" className="m-2"><Sprints project={project}/></Tab>
             <Tab eventKey="details" title="Details" className="m-2"><ProjectDashboard project={project} setSelectedProject={setSelectedProject} setProjects={setProjects}/></Tab>
-            {/*<Tab eventKey="permissions" title="Permissions" className="m-2"><ProjectPermissions project={project}/></Tab>*/}
+            <Tab eventKey="permissions" title="Permissions" className="m-2"><ProjectPermissions project={project}/></Tab>
         </Tabs>
     </>
 
@@ -50,18 +50,18 @@ function ProjectDashboard(props) {
         <h1>Description</h1>
         <p>{project.description}</p>
 
-        {/*<AccessGuard resourceId={project.id} action="DeleteProject">*/}
+        <AccessGuard resourceId={project.id} action="DeleteProject">
             <Button variant="danger" onClick={handleDeleteClicked}>Delete Project</Button>
-        {/*</AccessGuard>*/}
+        </AccessGuard>
     </>
 }
 
-// function ProjectPermissions(props) {
-//     const {project} = props
-//
-//     return <>
-//         <AccessGuard resourceId={project.id} action="ReadProjectPermissions">
-//             <Permissions resourceId={project.id} changeAction="ChangeProjectPermissions"/>
-//         </AccessGuard>
-//     </>
-// }
+function ProjectPermissions(props) {
+    const {project} = props
+
+    return <>
+        <AccessGuard resourceId={project.id} action="ReadProjectPermissions">
+            <Permissions resourceId={project.id} changeAction="ChangeProjectPermissions"/>
+        </AccessGuard>
+    </>
+}

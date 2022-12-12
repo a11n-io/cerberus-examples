@@ -2,7 +2,10 @@ module cerberus-examples
 
 go 1.18
 
+replace github.com/golang-migrate/migrate/v4 => github.com/a11n-io/migrate/v4 v4.15.12
+
 require (
+	github.com/a11n-io/go-cerberus v0.3.36
 	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/golang-jwt/jwt/v4 v4.4.2

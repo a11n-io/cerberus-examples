@@ -3,6 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"fmt"
+	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/google/uuid"
 	"log"
 )
@@ -14,12 +15,12 @@ type UserRepo interface {
 }
 
 type User struct {
-	Token string `json:"token"`
-	//CerberusTokenPair cerberus.TokenPair `json:"cerberusTokenPair"`
-	Id        string `json:"id"`
-	AccountId string `json:"accountId"`
-	Name      string `json:"name"`
-	Email     string `json:"email"`
+	Token             string             `json:"token"`
+	CerberusTokenPair cerberus.TokenPair `json:"cerberusTokenPair"`
+	Id                string             `json:"id"`
+	AccountId         string             `json:"accountId"`
+	Name              string             `json:"name"`
+	Email             string             `json:"email"`
 }
 
 type userRepo struct {
