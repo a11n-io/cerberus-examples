@@ -45,19 +45,25 @@ func main() {
 
 	txProvider := database.NewTxProvider(db)
 
+	userRepo := repositories.NewUserRepo(db)
+	accountRepo := repositories.NewAccountRepo(db)
+	projectRepo := repositories.NewProjectRepo(db)
+	sprintRepo := repositories.NewSprintRepo(db)
+	storyRepo := repositories.NewStoryRepo(db)
+
 	userService := services.NewUserService(
 		txProvider,
-		repositories.NewUserRepo(db),
-		repositories.NewAccountRepo(db),
+		userRepo,
+		accountRepo,
 		_env.JWT_SECRET, _env.SALT_ROUNDS)
 
 	publicRoutes := publicRoutes(userService)
 
 	privateRoutes := privateRoutes(
 		userService,
-		services.NewProjectService(txProvider, repositories.NewProjectRepo(db)),
-		services.NewSprintService(txProvider, repositories.NewSprintRepo(db)),
-		services.NewStoryService(txProvider, repositories.NewStoryRepo(db)))
+		services.NewProjectService(txProvider, projectRepo),
+		services.NewSprintService(txProvider, sprintRepo),
+		services.NewStoryService(txProvider, storyRepo))
 
 	// Run server with context
 	webserver := server.NewWebServer(ctx, _env.APP_PORT, _env.JWT_SECRET, publicRoutes, privateRoutes)

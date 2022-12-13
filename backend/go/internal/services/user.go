@@ -77,7 +77,7 @@ func (s *userService) Register(ctx context.Context, email, plainPassword, name s
 		return repositories.User{}, err
 	}
 
-	return userWithTokens(user, token /*, cerberusTokenPair*/), tx.Commit()
+	return userWithTokens(user, token), tx.Commit()
 }
 
 // Login finds a user and returns that user with a jwt token
@@ -94,7 +94,7 @@ func (s *userService) Login(ctx context.Context, email string, password string) 
 		return repositories.User{}, err
 	}
 
-	return userWithTokens(user, token /*, cerberusToken*/), nil
+	return userWithTokens(user, token), nil
 }
 
 func (s *userService) Add(ctx context.Context, email, plainPassword, name, roleId string) (_ repositories.User, err error) {

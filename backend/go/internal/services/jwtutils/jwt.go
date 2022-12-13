@@ -10,7 +10,7 @@ import (
 func Sign(subject string, claims map[string]interface{}, secret string) (string, error) {
 	now := time.Now()
 	registeredClaims := jwt.RegisteredClaims{
-		Issuer:    "cerberus",
+		Issuer:    "acme",
 		Subject:   subject,
 		ExpiresAt: jwt.NewNumericDate(now.Add(24 * time.Hour)),
 		IssuedAt:  jwt.NewNumericDate(now),

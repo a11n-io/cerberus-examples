@@ -90,7 +90,7 @@ func (s *webServer) JWTAuthRequired(c *gin.Context) {
 		return
 	}
 
-	// Set userId and cerberusToken for route handlers
+	// Set userId for route handlers
 	c.Set("userId", userId)
 	c.Set("accountId", accountId)
 
