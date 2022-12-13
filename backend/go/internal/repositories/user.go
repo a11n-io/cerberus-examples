@@ -10,6 +10,7 @@ import (
 
 type UserRepo interface {
 	Save(accountId, email, plainPassword, name string, tx *sql.Tx) (User, error)
+	FindOneByEmail(email string) (User, error)
 	FindOneByEmailAndPassword(email string, password string) (User, error)
 	FindAll(accountId string) ([]User, error)
 }
@@ -106,6 +107,31 @@ func (r *userRepo) FindOneByEmailAndPassword(email string, plainPassword string)
 	}
 
 	if !verifyPassword(plainPassword, password) {
+		err = fmt.Errorf("account not found or incorrect password")
+		return
+	}
+
+	user = User{
+		Id:        id,
+		AccountId: accountId,
+		Name:      name,
+		Email:     email,
+	}
+
+	return
+}
+
+func (r *userRepo) FindOneByEmail(email string) (user User, err error) {
+
+	stmt, err := r.db.Prepare("select id, account_id, name, password from user where email = ?")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer stmt.Close()
+	var id, accountId, name string
+	err = stmt.QueryRow(email).Scan(&id, &accountId, &name)
+	if err != nil {
 		err = fmt.Errorf("account not found or incorrect password")
 		return
 	}

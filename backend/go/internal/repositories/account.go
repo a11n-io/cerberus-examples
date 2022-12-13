@@ -8,6 +8,7 @@ import (
 
 type AccountRepo interface {
 	Create(tx *sql.Tx) (Account, error)
+	FindAll() ([]Account, error)
 }
 
 type Account struct {
@@ -63,5 +64,29 @@ func (r *accountRepo) create(tx *sql.Tx) (account Account, err error) {
 	account = Account{
 		Id: id,
 	}
+	return
+}
+
+func (r *accountRepo) FindAll() (accounts []Account, err error) {
+
+	stmt, err := r.db.Prepare("select id from account")
+	defer stmt.Close()
+	rows, err := stmt.Query()
+	if err != nil {
+		return
+	}
+
+	for rows.Next() {
+		var id string
+		err = rows.Scan(&id)
+		if err != nil {
+			return
+		}
+
+		accounts = append(accounts, Account{
+			Id: id,
+		})
+	}
+
 	return
 }

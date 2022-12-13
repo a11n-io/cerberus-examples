@@ -2,6 +2,7 @@ package main
 
 import (
 	"cerberus-examples/env"
+	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/database"
 	"cerberus-examples/internal/repositories"
 	"cerberus-examples/internal/routes"
@@ -14,6 +15,7 @@ import (
 	cerberusmigrate "github.com/golang-migrate/migrate/v4/database/cerberus"
 	"github.com/golang-migrate/migrate/v4/database/sqlite3"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/google/uuid"
 	"log"
 )
 
@@ -64,20 +66,124 @@ func main() {
 
 	txProvider := database.NewTxProvider(db)
 
+	userRepo := repositories.NewUserRepo(db)
+	accountRepo := repositories.NewAccountRepo(db)
+	projectRepo := repositories.NewProjectRepo(db)
+	sprintRepo := repositories.NewSprintRepo(db)
+	storyRepo := repositories.NewStoryRepo(db)
+
 	userService := services.NewUserService(
 		txProvider,
-		repositories.NewUserRepo(db),
-		repositories.NewAccountRepo(db),
+		userRepo,
+		accountRepo,
 		_env.JWT_SECRET, _env.SALT_ROUNDS, cerberusClient)
+
+	// migrate existing data to cerberus
+
+	accounts, err := accountRepo.FindAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, account := range accounts {
+
+		// admin user
+		adminUser, err := userRepo.FindOneByEmail("admin")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// Get token
+		tokenPair, err := cerberusClient.GetUserToken(ctx, account.Id, adminUser.Id)
+		if err != nil {
+			log.Fatal(err)
+		}
+		mctx := context.WithValue(ctx, "cerberusTokenPair", tokenPair)
+
+		roleId := uuid.New().String()
+
+		err = cerberusClient.Execute(mctx,
+			cerberusClient.CreateAccountCmd(account.Id),
+			cerberusClient.CreateResourceCmd(account.Id, "", common.Account_RT),
+			cerberusClient.CreateSuperRoleCmd(roleId, common.AccountAdministrator_R),
+			cerberusClient.CreatePermissionCmd(roleId, account.Id, []string{common.CanManageAccount_P}))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = cerberusClient.Execute(mctx,
+			cerberusClient.CreateUserCmd(adminUser.Id, adminUser.Email, adminUser.Name),
+			cerberusClient.AssignRoleCmd(roleId, adminUser.Id))
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		// all users
+		users, err := userRepo.FindAll(account.Id)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		for _, user := range users {
+
+			err = cerberusClient.Execute(mctx,
+				cerberusClient.CreateUserCmd(user.Id, user.Email, user.Name))
+			if err != nil {
+				log.Fatal(err)
+			}
+		}
+
+		// projects
+		projects, err := projectRepo.FindByAccount(account.Id)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		for _, project := range projects {
+			err = cerberusClient.Execute(mctx,
+				cerberusClient.CreateResourceCmd(project.Id, account.Id, common.Project_RT))
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// sprints
+			sprints, err := sprintRepo.FindByProject(project.Id)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			for _, sprint := range sprints {
+				err = cerberusClient.Execute(mctx,
+					cerberusClient.CreateResourceCmd(sprint.Id, project.Id, common.Sprint_RT))
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				// stories
+				stories, err := storyRepo.FindBySprint(sprint.Id)
+				if err != nil {
+					log.Fatal(err)
+				}
+
+				for _, story := range stories {
+					err = cerberusClient.Execute(mctx,
+						cerberusClient.CreateResourceCmd(story.Id, sprint.Id, common.Story_RT))
+					if err != nil {
+						log.Fatal(err)
+					}
+				}
+			}
+		}
+	}
 
 	publicRoutes := publicRoutes(userService)
 
 	privateRoutes := privateRoutes(
 		cerberusClient,
 		userService,
-		services.NewProjectService(txProvider, repositories.NewProjectRepo(db), cerberusClient),
-		services.NewSprintService(txProvider, repositories.NewSprintRepo(db), cerberusClient),
-		services.NewStoryService(txProvider, repositories.NewStoryRepo(db), cerberusClient))
+		services.NewProjectService(txProvider, projectRepo, cerberusClient),
+		services.NewSprintService(txProvider, sprintRepo, cerberusClient),
+		services.NewStoryService(txProvider, storyRepo, cerberusClient))
 
 	// Run server with context
 	webserver := server.NewWebServer(ctx, _env.APP_PORT, _env.JWT_SECRET, publicRoutes, privateRoutes)
