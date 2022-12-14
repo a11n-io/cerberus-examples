@@ -62,7 +62,7 @@ function AddUser() {
             email: email,
             password: password,
             name: name,
-            roleId: selectedRole
+            roleName: selectedRole
         })
             .then((r) => {
 
@@ -108,7 +108,7 @@ function AddUser() {
                         {
                             roles.map(role => {
                                 return (
-                                    <option key={role.id} value={role.id}>{role.displayName}</option>
+                                    <option key={role.id} value={role.name}>{role.displayName}</option>
                                 )
                             })
                         }

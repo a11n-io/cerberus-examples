@@ -15,7 +15,6 @@ import (
 	cerberusmigrate "github.com/golang-migrate/migrate/v4/database/cerberus"
 	"github.com/golang-migrate/migrate/v4/database/sqlite3"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/google/uuid"
 	"log"
 )
 
@@ -94,26 +93,19 @@ func main() {
 		}
 
 		// Get token
-		tokenPair, err := cerberusClient.GetUserToken(ctx, account.Id, adminUser.Id)
+		tokenPair, err := cerberusClient.GetUserToken(account.Id, adminUser.Id)
 		if err != nil {
 			log.Fatal(err)
 		}
 		mctx := context.WithValue(ctx, "cerberusTokenPair", tokenPair)
 
-		roleId := uuid.New().String()
-
-		err = cerberusClient.Execute(mctx,
+		err = cerberusClient.ExecuteWithCtx(mctx,
 			cerberusClient.CreateAccountCmd(account.Id),
-			cerberusClient.CreateResourceCmd(account.Id, "", common.Account_RT),
-			cerberusClient.CreateSuperRoleCmd(roleId, common.AccountAdministrator_R),
-			cerberusClient.CreatePermissionCmd(roleId, account.Id, []string{common.CanManageAccount_P}))
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		err = cerberusClient.Execute(mctx,
+			cerberusClient.CreateSuperRoleCmd(common.AccountAdministrator_R),
 			cerberusClient.CreateUserCmd(adminUser.Id, adminUser.Email, adminUser.Name),
-			cerberusClient.AssignRoleCmd(roleId, adminUser.Id))
+			cerberusClient.AssignRoleCmd(common.AccountAdministrator_R, adminUser.Id),
+			cerberusClient.CreateResourceCmd(account.Id, "", common.Account_RT),
+			cerberusClient.CreateRolePermissionCmd(common.AccountAdministrator_R, account.Id, []string{common.CanManageAccount_P}))
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -126,7 +118,7 @@ func main() {
 
 		for _, user := range users {
 
-			err = cerberusClient.Execute(mctx,
+			err = cerberusClient.ExecuteWithCtx(mctx,
 				cerberusClient.CreateUserCmd(user.Id, user.Email, user.Name))
 			if err != nil {
 				log.Fatal(err)
@@ -140,7 +132,7 @@ func main() {
 		}
 
 		for _, project := range projects {
-			err = cerberusClient.Execute(mctx,
+			err = cerberusClient.ExecuteWithCtx(mctx,
 				cerberusClient.CreateResourceCmd(project.Id, account.Id, common.Project_RT))
 			if err != nil {
 				log.Fatal(err)
@@ -153,7 +145,7 @@ func main() {
 			}
 
 			for _, sprint := range sprints {
-				err = cerberusClient.Execute(mctx,
+				err = cerberusClient.ExecuteWithCtx(mctx,
 					cerberusClient.CreateResourceCmd(sprint.Id, project.Id, common.Sprint_RT))
 				if err != nil {
 					log.Fatal(err)
@@ -166,7 +158,7 @@ func main() {
 				}
 
 				for _, story := range stories {
-					err = cerberusClient.Execute(mctx,
+					err = cerberusClient.ExecuteWithCtx(mctx,
 						cerberusClient.CreateResourceCmd(story.Id, sprint.Id, common.Story_RT))
 					if err != nil {
 						log.Fatal(err)

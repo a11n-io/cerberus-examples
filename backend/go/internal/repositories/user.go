@@ -123,7 +123,7 @@ func (r *userRepo) FindOneByEmailAndPassword(email string, plainPassword string)
 
 func (r *userRepo) FindOneByEmail(email string) (user User, err error) {
 
-	stmt, err := r.db.Prepare("select id, account_id, name, password from user where email = ?")
+	stmt, err := r.db.Prepare("select id, account_id, name from user where email = ?")
 	if err != nil {
 		log.Println(err)
 		return
