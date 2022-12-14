@@ -53,7 +53,7 @@ func (s *projectService) Create(ctx context.Context, accountId, name, descriptio
 		return repositories.Project{}, err
 	}
 
-	err = s.cerberusClient.Execute(ctx, s.cerberusClient.CreateResourceCmd(project.Id, accountId, common.Project_RT))
+	err = s.cerberusClient.ExecuteWithCtx(ctx, s.cerberusClient.CreateResourceCmd(project.Id, accountId, common.Project_RT))
 	if err != nil {
 		if rbe := tx.Rollback(); rbe != nil {
 			err = fmt.Errorf("rollback error (%v) after %w", rbe, err)

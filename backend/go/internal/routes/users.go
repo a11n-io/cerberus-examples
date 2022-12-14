@@ -27,6 +27,7 @@ func NewUserRoutes(userService services.UserService, cerberusClient cerberus.Cer
 
 func (r *userRoutes) RegisterRoutes(rg *gin.RouterGroup) {
 	rg.POST("users", func(c *gin.Context) { r.Add(c) })
+	rg.GET("users", func(c *gin.Context) { r.GetAll(c) })
 }
 
 func (r *userRoutes) Add(c *gin.Context) {
@@ -58,6 +59,19 @@ func (r *userRoutes) Add(c *gin.Context) {
 	)
 	if err != nil {
 		c.AbortWithStatusJSON(500, jsonError(err))
+		return
+	}
+
+	c.JSON(http.StatusCreated, jsonData(user))
+}
+
+func (r *userRoutes) GetAll(c *gin.Context) {
+
+	user, err := r.userService.GetAll(
+		c,
+	)
+	if err != nil {
+		c.AbortWithStatusJSON(400, jsonError(err))
 		return
 	}
 

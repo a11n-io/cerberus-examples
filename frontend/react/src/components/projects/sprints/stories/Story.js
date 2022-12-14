@@ -116,7 +116,7 @@ function Dashboard(props) {
                     {
                         users.map(user => {
                             return (
-                                <option key={user.id} value={user.id}>{user.name}</option>
+                                <option key={user.id} value={user.id}>{user.displayName}</option>
                             )
                         })
                     }

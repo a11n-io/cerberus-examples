@@ -1,7 +1,7 @@
 github.com/a11n-io/go-cerberus v0.3.39 h1:9gma8UEZDP8BRrEDgEcIxAdVeGc34Km//hq1C53fZJU=
 github.com/a11n-io/go-cerberus v0.3.39/go.mod h1:XdOzfM+J0Z+V8J96m0T/4HA+fosAXIJz4QIi2RL9QM0=
-github.com/a11n-io/migrate/v4 v4.15.12 h1:cz0LoZ2IIbgnmLozcwnxsOAKxzpjl8iCrZDrfViLc/0=
-github.com/a11n-io/migrate/v4 v4.15.12/go.mod h1:VLLANH5Jw2JwISNQ+VkZe/q73EOZjox1p5r2PKAgPRA=
+github.com/a11n-io/migrate/v4 v4.15.13 h1:8xh0fs3n0Xj/Fa/KKu2rX6HHDoiUeUVVpOBFlbzvYVw=
+github.com/a11n-io/migrate/v4 v4.15.13/go.mod h1:wrLLYEM9w9xtogjBiZ3iGahmALgyhD9QkoHHQ4CyphM=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
