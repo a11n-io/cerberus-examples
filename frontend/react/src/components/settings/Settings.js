@@ -34,10 +34,16 @@ function AddUser() {
     const [selectedRole, setSelectedRole] = useState("")
 
     useEffect(() => {
-        get(`roles`, {
+        get(`roles?sort=name&order=asc&skip=0&limit=100`, {
             "Authorization": "Bearer " + authCtx.user.cerberusToken
         })
-            .then(r => setRoles(r))
+            .then(r => {
+                if (r && r.page) {
+                    setRoles(r.page)
+                } else {
+                    setRoles([])
+                }
+            })
             .catch(e => console.error(e))
     }, [])
 
