@@ -20,7 +20,7 @@ export default function Navbar() {
     return <>
         <nav className="navbar">
             <NavLink to="/" className="nav-brand">
-                Acme Project Manager
+                Acme Project Manager <small>(permissioned)</small>
             </NavLink>
             <ul>
                 <AuthGuard>

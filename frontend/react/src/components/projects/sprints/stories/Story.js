@@ -3,6 +3,7 @@ import useFetch from "../../../../hooks/useFetch";
 import Loader from "../../../../uikit/Loader";
 import {Form, Tab, Tabs} from "react-bootstrap";
 import {AccessGuard, Permissions, useAccess} from "@a11n-io/cerberus-reactjs";
+import "@a11n-io/cerberus-reactjs/dist/index.css"
 
 export default function Story(props) {
     const {story, setSelectedStory, setStories} = props

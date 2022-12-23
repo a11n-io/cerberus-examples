@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import {AccessGuard, Permissions, Roles, Users} from "@a11n-io/cerberus-reactjs";
+import "@a11n-io/cerberus-reactjs/dist/index.css"
 import {Button, Col, Container, Form, ListGroup, ListGroupItem, Row, Tab, Tabs} from "react-bootstrap";
 import Loader from "../../uikit/Loader";
 import useFetch from "../../hooks/useFetch";
@@ -25,7 +26,7 @@ export default function Settings() {
 function AddUser() {
     const authCtx = useContext(AuthContext)
     const { post, loading } = useFetch('/api/')
-    const {get} = useFetch('http://localhost:8000/api/') // get roles from cerberus
+    const {get} = useFetch(`${process.env.REACT_APP_CERBERUS_API_HOST}/api/`) // get roles from cerberus
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [name, setName] = useState("")

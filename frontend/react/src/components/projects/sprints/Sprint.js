@@ -6,6 +6,7 @@ import Loader from "../../../uikit/Loader";
 import Btn from "../../../uikit/Btn";
 import Stories from "./stories/Stories";
 import {AccessGuard, Permissions} from "@a11n-io/cerberus-reactjs";
+import "@a11n-io/cerberus-reactjs/dist/index.css"
 import {Card, Tab, Tabs} from "react-bootstrap";
 import {ProjectContext} from "../ProjectContext";
 

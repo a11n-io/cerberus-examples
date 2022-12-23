@@ -2,6 +2,7 @@ import useFetch from "../../hooks/useFetch";
 import Loader from "../../uikit/Loader";
 import Sprints from "./sprints/Sprints";
 import {AccessGuard, Permissions} from "@a11n-io/cerberus-reactjs";
+import "@a11n-io/cerberus-reactjs/dist/index.css"
 import {Button, Tab, Tabs} from "react-bootstrap";
 import {useContext} from "react";
 import {ProjectContext} from "./ProjectContext";
