@@ -1,5 +1,0 @@
-
-(ca "Account" "ReadAccountPermissions")
-(ca "Project" "ReadProjectPermissions")
-(ca "Sprint" "ReadSprintPermissions")
-
