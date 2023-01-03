@@ -1,6 +1,6 @@
 /.idea/
 /backend/go/dbdata/example.db
-/backend/go/.env.dev
+/backend/go/.env
 /frontend/react/node_modules/
 /frontend/react/.env.development
 /frontend/react/.env.production
