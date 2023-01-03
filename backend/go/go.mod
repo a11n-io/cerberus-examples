@@ -15,6 +15,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.15
 	github.com/prinick96/elog v0.0.0-20220520175626-b729d74ceb5b
 	golang.org/x/crypto v0.0.0-20220314234659-1baeb1ce4c0b
+	github.com/urfave/cli/v2 v2.23.5
 )
 
 require (

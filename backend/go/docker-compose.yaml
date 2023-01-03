@@ -15,6 +15,13 @@ services:
     container_name: cerberus-example
     ports:
       - "8081:8081"
+    environment:
+      - APP_PORT=8081
+      - JWT_SECRET=secret
+      - SALT_ROUNDS=10
+      - CERBERUS_HOST = "https://cerberus-api.a11n.io:443"
+      - CERBERUS_API_KEY = ""
+
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
