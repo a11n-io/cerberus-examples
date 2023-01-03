@@ -5,7 +5,6 @@ import Loader from "../../uikit/Loader";
 import {Routes, Route} from "react-router-dom";
 import Project from "./Project";
 import CreateProject from "./CreateProject";
-import {AccessGuard, useAccess} from "@a11n-io/cerberus-reactjs"
 import {Col, Container, ListGroup, ListGroupItem, Row} from "react-bootstrap";
 import {ProjectContext} from "./ProjectContext";
 
@@ -75,9 +74,7 @@ function ProjectList() {
                     {
                         selectedProject
                             ? <Project project={selectedProject} setSelectedProject={setSelectedProject} setProjects={setProjects}/>
-                            : <AccessGuard resourceId={authCtx.user.accountId} action="CreateProject">
-                                <CreateProject setProjects={setProjects}/>
-                            </AccessGuard>
+                            : <CreateProject setProjects={setProjects}/>
                     }
                 </Col>
             </Row>
@@ -86,12 +83,9 @@ function ProjectList() {
 }
 
 function ProjectButton(props) {
-    const [readAccess, setReadAccess] = useState(false)
-    useAccess(props.project.id, "ReadProject", setReadAccess)
 
     return <>
         <ListGroupItem
-            disabled={!readAccess}
             action
             active={props.selectedProject && props.selectedProject.id === props.project.id}
             onClick={props.handleProjectSelected}

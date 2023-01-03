@@ -1,12 +1,10 @@
 package services
 
 import (
-	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/database"
 	"cerberus-examples/internal/repositories"
 	"context"
 	"fmt"
-	cerberus "github.com/a11n-io/go-cerberus"
 )
 
 type ProjectService interface {
@@ -17,19 +15,16 @@ type ProjectService interface {
 }
 
 type projectService struct {
-	txProvider     database.TxProvider
-	repo           repositories.ProjectRepo
-	cerberusClient cerberus.CerberusClient
+	txProvider database.TxProvider
+	repo       repositories.ProjectRepo
 }
 
 func NewProjectService(
 	txProvider database.TxProvider,
-	repo repositories.ProjectRepo,
-	cerberusClient cerberus.CerberusClient) ProjectService {
+	repo repositories.ProjectRepo) ProjectService {
 	return &projectService{
-		txProvider:     txProvider,
-		repo:           repo,
-		cerberusClient: cerberusClient,
+		txProvider: txProvider,
+		repo:       repo,
 	}
 }
 
@@ -46,14 +41,6 @@ func (s *projectService) Create(ctx context.Context, accountId, name, descriptio
 	}
 
 	project, err := s.repo.Create(accountId, name, description, tx)
-	if err != nil {
-		if rbe := tx.Rollback(); rbe != nil {
-			err = fmt.Errorf("rollback error (%v) after %w", rbe, err)
-		}
-		return repositories.Project{}, err
-	}
-
-	err = s.cerberusClient.Execute(ctx, s.cerberusClient.CreateResourceCmd(project.Id, accountId, common.Project_RT))
 	if err != nil {
 		if rbe := tx.Rollback(); rbe != nil {
 			err = fmt.Errorf("rollback error (%v) after %w", rbe, err)

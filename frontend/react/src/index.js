@@ -5,16 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {AuthProvider} from "./context/AuthContext";
-import {CerberusProvider} from "@a11n-io/cerberus-reactjs";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-      <CerberusProvider apiHost={process.env.REACT_APP_CERBERUS_API_HOST} socketHost={process.env.REACT_APP_CERBERUS_WS_HOST}>
-          <AuthProvider>
-              <App />
-          </AuthProvider>
-      </CerberusProvider>
+      <AuthProvider>
+          <App />
+      </AuthProvider>
   </React.StrictMode>
 );
 

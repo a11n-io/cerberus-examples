@@ -1,13 +1,19 @@
 import {NavLink, Link, useNavigate} from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext, AuthGuard} from "../../context/AuthContext";
+import {ProjectContext} from "../projects/ProjectContext";
+import {SprintContext} from "../projects/sprints/SprintContext";
 
 export default function Navbar() {
     const auth = useContext(AuthContext)
+    const projectCtx = useContext(ProjectContext)
+    const sprintCtx = useContext(SprintContext)
     const navigate = useNavigate()
 
     function handleLogout() {
         auth.logout()
+        projectCtx.setProject(null)
+        sprintCtx.setSprint(null)
         navigate("/login")
     }
 

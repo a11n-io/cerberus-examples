@@ -3,7 +3,6 @@ package repositories
 import (
 	"database/sql"
 	"fmt"
-	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/google/uuid"
 	"log"
 )
@@ -11,16 +10,16 @@ import (
 type UserRepo interface {
 	Save(accountId, email, plainPassword, name string, tx *sql.Tx) (User, error)
 	FindOneByEmailAndPassword(email string, password string) (User, error)
+	FindOneByEmail(email string) (User, error)
 	FindAll(accountId string) ([]User, error)
 }
 
 type User struct {
-	Token             string             `json:"token"`
-	CerberusTokenPair cerberus.TokenPair `json:"cerberusTokenPair"`
-	Id                string             `json:"id"`
-	AccountId         string             `json:"accountId"`
-	Name              string             `json:"name"`
-	Email             string             `json:"email"`
+	Token     string `json:"token"`
+	Id        string `json:"id"`
+	AccountId string `json:"accountId"`
+	Name      string `json:"name"`
+	Email     string `json:"email"`
 }
 
 type userRepo struct {
@@ -106,6 +105,31 @@ func (r *userRepo) FindOneByEmailAndPassword(email string, plainPassword string)
 	}
 
 	if !verifyPassword(plainPassword, password) {
+		err = fmt.Errorf("account not found or incorrect password")
+		return
+	}
+
+	user = User{
+		Id:        id,
+		AccountId: accountId,
+		Name:      name,
+		Email:     email,
+	}
+
+	return
+}
+
+func (r *userRepo) FindOneByEmail(email string) (user User, err error) {
+
+	stmt, err := r.db.Prepare("select id, account_id, name, password from user where email = ?")
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	defer stmt.Close()
+	var id, accountId, name string
+	err = stmt.QueryRow(email).Scan(&id, &accountId, &name)
+	if err != nil {
 		err = fmt.Errorf("account not found or incorrect password")
 		return
 	}
