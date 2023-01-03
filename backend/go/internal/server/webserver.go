@@ -137,6 +137,6 @@ func applyCors(r *gin.Engine) {
 	//hot reload CORS
 	corsConfig.AllowOrigins = []string{"http://localhost:3001"}
 	corsConfig.AllowCredentials = true
-	corsConfig.AllowHeaders = []string{"Content-Type", "Authorization", "CerberusAccessToken", "CerberusRefreshToken"}
+	corsConfig.AllowHeaders = []string{"Content-Type", "Authorization"}
 	r.Use(cors.New(corsConfig))
 }

@@ -1,3 +1,0 @@
-(da "Account" "ReadAccountPermissions")
-(da "Project" "ReadProjectPermissions")
-(da "Sprint" "ReadSprintPermissions")
