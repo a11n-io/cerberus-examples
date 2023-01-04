@@ -35,11 +35,6 @@ func NewProjectService(
 
 func (s *projectService) Create(ctx context.Context, accountId, name, description string) (repositories.Project, error) {
 
-	userId := ctx.Value("userId")
-	if userId == nil {
-		return repositories.Project{}, fmt.Errorf("no userId")
-	}
-
 	tx, err := s.txProvider.GetTransaction()
 	if err != nil {
 		return repositories.Project{}, err

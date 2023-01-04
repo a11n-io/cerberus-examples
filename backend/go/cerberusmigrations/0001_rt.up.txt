@@ -5,33 +5,16 @@
 (crt "Story" "Sprint")
 
 ; Create Account Actions
-(ca "Account" "CreateProject")
-(ca "Account" "AddUser")
-(ca "Account" "ChangeAccountPermissions")
-(ca "Account" "ReadAccountPermissions")
+(ca "Account" "CreateProject" "AddUser" "ChangeAccountPermissions" "ReadAccountPermissions")
 
 ; Create Project Actions
-(ca "Project" "ReadProject")
-(ca "Project" "DeleteProject")
-(ca "Project" "CreateSprint")
-(ca "Project" "ChangeProjectPermissions")
-(ca "Project" "ReadProjectPermissions")
+(ca "Project" "ReadProject" "DeleteProject" "CreateSprint" "ChangeProjectPermissions" "ReadProjectPermissions")
 
 ; Create Sprint Actions
-(ca "Sprint" "ReadSprint")
-(ca "Sprint" "StartSprint")
-(ca "Sprint" "EndSprint")
-(ca "Sprint" "CreateStory")
-(ca "Sprint" "ChangeSprintPermissions")
-(ca "Sprint" "ReadSprintPermissions")
+(ca "Sprint" "ReadSprint" "StartSprint" "EndSprint" "CreateStory" "ChangeSprintPermissions" "ReadSprintPermissions")
 
 ; Create Story Actions
-(ca "Story" "ReadStory")
-(ca "Story" "EstimateStory")
-(ca "Story" "ChangeStoryStatus")
-(ca "Story" "ChangeStoryAssignee")
-(ca "Story" "ChangeStoryPermissions")
-(ca "Story" "ReadStoryPermissions")
+(ca "Story" "ReadStory" "EstimateStory" "ChangeStoryStatus" "ChangeStoryAssignee" "ChangeStoryPermissions" "ReadStoryPermissions")
 
 ; Create Policies
 (cp "CanManageAccount" "manage everything in the account, including settings, projects, sprints and stories")

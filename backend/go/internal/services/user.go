@@ -156,7 +156,7 @@ func (s *userService) Add(ctx context.Context, email, plainPassword, name, roleN
 	return user, tx.Commit()
 }
 
-func (s *userService) GetAll(ctx context.Context) (_ []cerberus.User, err error) {
+func (s *userService) GetAll(ctx context.Context) ([]cerberus.User, error) {
 	return s.cerberusClient.GetUsers(ctx)
 }
 

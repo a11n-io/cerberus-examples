@@ -37,11 +37,6 @@ func NewStoryService(
 
 func (s *storyService) Create(ctx context.Context, sprintId, description string) (repositories.Story, error) {
 
-	userId := ctx.Value("userId")
-	if userId == nil {
-		return repositories.Story{}, fmt.Errorf("no userId")
-	}
-
 	tx, err := s.txProvider.GetTransaction()
 	if err != nil {
 		return repositories.Story{}, err

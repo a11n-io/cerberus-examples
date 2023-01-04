@@ -31,8 +31,6 @@ const (
 
 	// Policies
 	CanManageAccount_P = "CanManageAccount"
-	CanManageProject_P = "CanManageProject"
-	CanManageSprint_P  = "CanManageSprint"
 
 	// Roles
 	AccountAdministrator_R = "AccountAdministrator"

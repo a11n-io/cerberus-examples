@@ -36,11 +36,6 @@ func NewSprintService(
 
 func (s *sprintService) Create(ctx context.Context, projectId, goal string) (repositories.Sprint, error) {
 
-	userId := ctx.Value("userId")
-	if userId == nil {
-		return repositories.Sprint{}, fmt.Errorf("no userId")
-	}
-
 	tx, err := s.txProvider.GetTransaction()
 	if err != nil {
 		return repositories.Sprint{}, err

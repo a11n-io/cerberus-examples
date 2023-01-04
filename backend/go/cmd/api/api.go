@@ -125,6 +125,15 @@ func main() {
 				accountRepo,
 				jwtSecret, saltRounds, cerberusClient)
 
+			publicRoutes := publicRoutes(userService)
+
+			privateRoutes := privateRoutes(
+				cerberusClient,
+				userService,
+				services.NewProjectService(txProvider, projectRepo, cerberusClient),
+				services.NewSprintService(txProvider, sprintRepo, cerberusClient),
+				services.NewStoryService(txProvider, storyRepo, cerberusClient))
+
 			// migrate existing data to cerberus
 
 			accounts, err := accountRepo.FindAll()
@@ -215,15 +224,6 @@ func main() {
 					}
 				}
 			}
-
-			publicRoutes := publicRoutes(userService)
-
-			privateRoutes := privateRoutes(
-				cerberusClient,
-				userService,
-				services.NewProjectService(txProvider, projectRepo, cerberusClient),
-				services.NewSprintService(txProvider, sprintRepo, cerberusClient),
-				services.NewStoryService(txProvider, storyRepo, cerberusClient))
 
 			// Run server with context
 			webserver := server.NewWebServer(ctx, appPort, jwtSecret, publicRoutes, privateRoutes)
