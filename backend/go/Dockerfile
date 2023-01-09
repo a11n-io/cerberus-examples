@@ -12,7 +12,6 @@ RUN CGO_ENABLED=1 go build cmd/api/api.go
 # final stage
 FROM alpine
 COPY --from=backend-builder /app/api /app/
-COPY --from=backend-builder /app/.env.dev /app/
 COPY --from=backend-builder /app/migrations /app/migrations
 COPY --from=backend-builder /app/cerberusmigrations /app/cerberusmigrations
 RUN apk add --no-cache bash busybox-extras
