@@ -1,17 +1,18 @@
 package server
 
 import (
-	"cerberus-examples/internal/routes"
-	"cerberus-examples/internal/services/jwtutils"
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+	"strings"
+
+	"cerberus-examples/internal/routes"
+	"cerberus-examples/internal/services/jwtutils"
 	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
-	"log"
-	"net/http"
-	"strings"
 )
 
 type WebServer interface {

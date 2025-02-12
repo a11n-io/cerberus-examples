@@ -1,12 +1,13 @@
 package routes
 
 import (
+	"fmt"
+	"net/http"
+
 	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/services"
-	"fmt"
 	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type UserData struct {
@@ -37,7 +38,7 @@ func (r *userRoutes) Add(c *gin.Context) {
 		c.AbortWithStatusJSON(400, jsonError(fmt.Errorf("no accountId")))
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, accountId.(string), common.AddUser_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, accountId.(string), common.AdduserA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return

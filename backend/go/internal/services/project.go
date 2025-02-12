@@ -1,11 +1,12 @@
 package services
 
 import (
+	"context"
+	"fmt"
+
 	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/database"
 	"cerberus-examples/internal/repositories"
-	"context"
-	"fmt"
 	cerberus "github.com/a11n-io/go-cerberus"
 )
 
@@ -48,7 +49,7 @@ func (s *projectService) Create(ctx context.Context, accountId, name, descriptio
 		return repositories.Project{}, err
 	}
 
-	err = s.cerberusClient.ExecuteWithCtx(ctx, s.cerberusClient.CreateResourceCmd(project.Id, accountId, common.Project_RT))
+	err = s.cerberusClient.ExecuteWithCtx(ctx, s.cerberusClient.CreateResourceCmd(project.Id, accountId, common.ProjectRt))
 	if err != nil {
 		if rbe := tx.Rollback(); rbe != nil {
 			err = fmt.Errorf("rollback error (%v) after %w", rbe, err)

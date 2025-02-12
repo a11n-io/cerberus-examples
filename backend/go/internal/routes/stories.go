@@ -1,13 +1,14 @@
 package routes
 
 import (
-	"cerberus-examples/internal/common"
-	"cerberus-examples/internal/services"
 	"fmt"
-	cerberus "github.com/a11n-io/go-cerberus"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"cerberus-examples/internal/common"
+	"cerberus-examples/internal/services"
+	cerberus "github.com/a11n-io/go-cerberus"
+	"github.com/gin-gonic/gin"
 )
 
 type StoryData struct {
@@ -45,7 +46,7 @@ func (r *storyRoutes) Create(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.CreateStory_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.CreateStoryA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
@@ -97,7 +98,7 @@ func (r *storyRoutes) Get(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ReadStory_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ReadStoryA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
@@ -123,7 +124,7 @@ func (r *storyRoutes) Estimate(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.EstimateStory_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.EstimateStoryA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
@@ -162,7 +163,7 @@ func (r *storyRoutes) ChangeStatus(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryStatus_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryStatusA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
@@ -196,7 +197,7 @@ func (r *storyRoutes) Assign(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryAssignee_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, storyId, common.ChangeStoryAssigneeA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return

@@ -2,8 +2,9 @@ package repositories
 
 import (
 	"database/sql"
-	"github.com/google/uuid"
 	"log"
+
+	"github.com/google/uuid"
 )
 
 type AccountRepo interface {
@@ -53,7 +54,9 @@ func (r *accountRepo) create(tx *sql.Tx) (account Account, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	id := uuid.New().String()
 	_, err = stmt.Exec(id)
 	if err != nil {
@@ -70,7 +73,9 @@ func (r *accountRepo) create(tx *sql.Tx) (account Account, err error) {
 func (r *accountRepo) FindAll() (accounts []Account, err error) {
 
 	stmt, err := r.db.Prepare("select id from account")
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	rows, err := stmt.Query()
 	if err != nil {
 		return

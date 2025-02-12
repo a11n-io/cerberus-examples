@@ -3,8 +3,9 @@ package jwtutils
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/golang-jwt/jwt/v4"
 	"time"
+
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func Sign(subject string, claims map[string]interface{}, secret string) (string, error) {

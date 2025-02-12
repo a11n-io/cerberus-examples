@@ -1,13 +1,14 @@
 package routes
 
 import (
-	"cerberus-examples/internal/common"
-	"cerberus-examples/internal/services"
 	"fmt"
-	cerberus "github.com/a11n-io/go-cerberus"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"cerberus-examples/internal/common"
+	"cerberus-examples/internal/services"
+	cerberus "github.com/a11n-io/go-cerberus"
+	"github.com/gin-gonic/gin"
 )
 
 type SprintData struct {
@@ -41,7 +42,7 @@ func (r *sprintRoutes) Create(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, projectId, common.CreateSprint_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, projectId, common.CreateSprintA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
@@ -99,7 +100,7 @@ func (r *sprintRoutes) Start(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.StartSprint_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.StartSprintA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
@@ -125,7 +126,7 @@ func (r *sprintRoutes) End(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.EndSprint_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.EndSprintA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return
@@ -151,7 +152,7 @@ func (r *sprintRoutes) Get(c *gin.Context) {
 		return
 	}
 
-	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.ReadSprint_A)
+	hasAccess, err := r.cerberusClient.HasAccess(c, sprintId, common.ReadSprintA)
 	if err != nil || !hasAccess {
 		c.AbortWithStatusJSON(http.StatusForbidden, jsonError(err))
 		return

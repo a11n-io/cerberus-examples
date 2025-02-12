@@ -3,9 +3,10 @@ package repositories
 import (
 	"database/sql"
 	"fmt"
+	"log"
+
 	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/google/uuid"
-	"log"
 )
 
 type UserRepo interface {
@@ -74,7 +75,9 @@ func (r *userRepo) save(accountId, email, encryptedPassword, name string, tx *sq
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	id := uuid.New().String()
 	_, err = stmt.Exec(id, accountId, email, encryptedPassword, name)
 	if err != nil {
@@ -98,7 +101,9 @@ func (r *userRepo) FindOneByEmailAndPassword(email string, plainPassword string)
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	var id, accountId, name, password string
 	err = stmt.QueryRow(email).Scan(&id, &accountId, &name, &password)
 	if err != nil {
@@ -128,7 +133,9 @@ func (r *userRepo) FindOneByEmail(email string) (user User, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	var id, accountId, name string
 	err = stmt.QueryRow(email).Scan(&id, &accountId, &name)
 	if err != nil {
@@ -153,7 +160,9 @@ func (r *userRepo) FindAll(accountId string) (users []User, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	rows, err := stmt.Query(accountId)
 	if err != nil {
 		return

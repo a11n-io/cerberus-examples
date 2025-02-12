@@ -1,5 +1,5 @@
 # backend build stage
-FROM golang:alpine as backend-builder
+FROM golang:alpine AS backend-builder
 RUN apk --no-cache add build-base
 ENV GO111MODULE=on
 WORKDIR /app

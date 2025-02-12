@@ -2,8 +2,9 @@ package repositories
 
 import (
 	"database/sql"
-	"github.com/google/uuid"
 	"log"
+
+	"github.com/google/uuid"
 )
 
 type ProjectRepo interface {
@@ -63,7 +64,9 @@ func (r *projectRepo) create(accountId, name, description string, tx *sql.Tx) (p
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	id := uuid.New().String()
 	_, err = stmt.Exec(id, accountId, name, description)
 	if err != nil {
@@ -87,7 +90,9 @@ func (r *projectRepo) FindByAccount(accountId string) (projects []Project, err e
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	rows, err := stmt.Query(accountId)
 	if err != nil {
 		return
@@ -118,7 +123,9 @@ func (r *projectRepo) Get(projectId string) (project Project, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	var name, description, accountId string
 	err = stmt.QueryRow(projectId).Scan(&accountId, &name, &description)
 	if err != nil {
@@ -142,7 +149,9 @@ func (r *projectRepo) Delete(projectId string) (err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	_, err = stmt.Exec(projectId)
 
 	return

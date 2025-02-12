@@ -1,11 +1,12 @@
 package services
 
 import (
+	"context"
+	"fmt"
+
 	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/database"
 	"cerberus-examples/internal/repositories"
-	"context"
-	"fmt"
 	cerberus "github.com/a11n-io/go-cerberus"
 )
 
@@ -49,7 +50,7 @@ func (s *sprintService) Create(ctx context.Context, projectId, goal string) (rep
 		return repositories.Sprint{}, err
 	}
 
-	err = s.cerberusClient.ExecuteWithCtx(ctx, s.cerberusClient.CreateResourceCmd(sprint.Id, projectId, common.Sprint_RT))
+	err = s.cerberusClient.ExecuteWithCtx(ctx, s.cerberusClient.CreateResourceCmd(sprint.Id, projectId, common.SprintRt))
 	if err != nil {
 		if rbe := tx.Rollback(); rbe != nil {
 			err = fmt.Errorf("rollback error (%v) after %w", rbe, err)

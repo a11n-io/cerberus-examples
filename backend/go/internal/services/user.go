@@ -1,14 +1,15 @@
 package services
 
 import (
+	"context"
+	"fmt"
+	"log"
+
 	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/database"
 	"cerberus-examples/internal/repositories"
 	"cerberus-examples/internal/services/jwtutils"
-	"context"
-	"fmt"
 	cerberus "github.com/a11n-io/go-cerberus"
-	"log"
 )
 
 type UserService interface {
@@ -76,11 +77,11 @@ func (s *userService) Register(ctx context.Context, email, plainPassword, name s
 	// CERBERUS create account resource, user and role
 	err = s.cerberusClient.Execute(account.Id, user.Id,
 		s.cerberusClient.CreateAccountCmd(account.Id),
-		s.cerberusClient.CreateResourceCmd(account.Id, "", common.Account_RT),
+		s.cerberusClient.CreateResourceCmd(account.Id, "", common.AccountRt),
 		s.cerberusClient.CreateUserCmd(user.Id, user.Email, user.Name),
-		s.cerberusClient.CreateSuperRoleCmd(common.AccountAdministrator_R),
-		s.cerberusClient.AssignRoleCmd(common.AccountAdministrator_R, user.Id),
-		s.cerberusClient.CreateRolePermissionCmd(common.AccountAdministrator_R, account.Id, []string{common.CanManageAccount_P}))
+		s.cerberusClient.CreateSuperRoleCmd(common.AccountAdministratorR),
+		s.cerberusClient.AssignRoleCmd(common.AccountAdministratorR, user.Id),
+		s.cerberusClient.CreateRolePermissionCmd(common.AccountAdministratorR, account.Id, []string{common.CanManageAccountP}))
 	if err != nil {
 		if rbe := tx.Rollback(); rbe != nil {
 			err = fmt.Errorf("rollback error (%v) after %w", rbe, err)

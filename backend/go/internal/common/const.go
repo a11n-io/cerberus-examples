@@ -3,35 +3,35 @@ package common
 const (
 
 	// Resource Types
-	Account_RT = "Account"
-	Project_RT = "Project"
-	Sprint_RT  = "Sprint"
-	Story_RT   = "Story"
+	AccountRt = "Account"
+	ProjectRt = "Project"
+	SprintRt  = "Sprint"
+	StoryRt   = "Story"
 
 	// Account Actions
-	CreateProject_A = "CreateProject"
-	AddUser_A       = "AddUser"
+	CreateProjectA = "CreateProject"
+	AdduserA       = "AddUser"
 
 	// Project Actions
-	ReadProject_A   = "ReadProject"
-	DeleteProject_A = "DeleteProject"
-	CreateSprint_A  = "CreateSprint"
+	ReadProjectA   = "ReadProject"
+	DeleteProjectA = "DeleteProject"
+	CreateSprintA  = "CreateSprint"
 
 	// Sprint Actions
-	ReadSprint_A  = "ReadSprint"
-	StartSprint_A = "StartSprint"
-	EndSprint_A   = "EndSprint"
-	CreateStory_A = "CreateStory"
+	ReadSprintA  = "ReadSprint"
+	StartSprintA = "StartSprint"
+	EndSprintA   = "EndSprint"
+	CreateStoryA = "CreateStory"
 
 	// Story Actions
-	ReadStory_A           = "ReadStory"
-	EstimateStory_A       = "EstimateStory"
-	ChangeStoryStatus_A   = "ChangeStoryStatus"
-	ChangeStoryAssignee_A = "ChangeStoryAssignee"
+	ReadStoryA           = "ReadStory"
+	EstimateStoryA       = "EstimateStory"
+	ChangeStoryStatusA   = "ChangeStoryStatus"
+	ChangeStoryAssigneeA = "ChangeStoryAssignee"
 
 	// Policies
-	CanManageAccount_P = "CanManageAccount"
+	CanManageAccountP = "CanManageAccount"
 
 	// Roles
-	AccountAdministrator_R = "AccountAdministrator"
+	AccountAdministratorR = "AccountAdministrator"
 )
