@@ -2,9 +2,10 @@ package repositories
 
 import (
 	"database/sql"
-	"github.com/google/uuid"
 	"log"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type SprintRepo interface {
@@ -69,7 +70,9 @@ func (r *sprintRepo) create(projectId, goal string, tx *sql.Tx) (sprint Sprint, 
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	id := uuid.New().String()
 	_, err = stmt.Exec(id, projectId, projectId, goal)
 	if err != nil {
@@ -89,7 +92,9 @@ func (r *sprintRepo) FindByProject(projectId string) (sprints []Sprint, err erro
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	rows, err := stmt.Query(projectId)
 	if err != nil {
 		return
@@ -150,7 +155,9 @@ func (r *sprintRepo) get(sprintId string, tx *sql.Tx) (sprint Sprint, err error)
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	var goal, projectId string
 	var sprintNumber int
 	var startDate, endDate int64
@@ -181,7 +188,9 @@ func (r *sprintRepo) Start(sprintId string) (sprint Sprint, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	startDate := time.Now().Unix()
 	_, err = stmt.Exec(startDate, sprintId)
 	if err != nil {
@@ -214,7 +223,9 @@ func (r *sprintRepo) End(sprintId string) (sprint Sprint, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	endDate := time.Now().Unix()
 	_, err = stmt.Exec(endDate, sprintId)
 	if err != nil {

@@ -2,8 +2,9 @@ package repositories
 
 import (
 	"database/sql"
-	"github.com/google/uuid"
 	"log"
+
+	"github.com/google/uuid"
 )
 
 type AccountRepo interface {

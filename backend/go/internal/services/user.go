@@ -1,12 +1,13 @@
 package services
 
 import (
-	"cerberus-examples/internal/database"
-	"cerberus-examples/internal/repositories"
-	"cerberus-examples/internal/services/jwtutils"
 	"context"
 	"fmt"
 	"log"
+
+	"cerberus-examples/internal/database"
+	"cerberus-examples/internal/repositories"
+	"cerberus-examples/internal/services/jwtutils"
 )
 
 type UserService interface {

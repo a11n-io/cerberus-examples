@@ -1,6 +1,9 @@
 package main
 
 import (
+	"context"
+	"log"
+
 	"cerberus-examples/env"
 	"cerberus-examples/internal/database"
 	"cerberus-examples/internal/repositories"
@@ -8,11 +11,9 @@ import (
 	"cerberus-examples/internal/server"
 	"cerberus-examples/internal/services"
 	"cerberus-examples/internal/utils"
-	"context"
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/sqlite3"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	"log"
 )
 
 func main() {
@@ -55,7 +56,7 @@ func main() {
 		txProvider,
 		userRepo,
 		accountRepo,
-		_env.JWT_SECRET, _env.SALT_ROUNDS)
+		_env.JwtSecret, _env.SaltRounds)
 
 	publicRoutes := publicRoutes(userService)
 
@@ -66,7 +67,7 @@ func main() {
 		services.NewStoryService(txProvider, storyRepo))
 
 	// Run server with context
-	webserver := server.NewWebServer(ctx, _env.APP_PORT, _env.JWT_SECRET, publicRoutes, privateRoutes)
+	webserver := server.NewWebServer(ctx, _env.AppPort, _env.JwtSecret, publicRoutes, privateRoutes)
 	webserver.Start()
 }
 

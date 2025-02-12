@@ -1,9 +1,10 @@
 package routes
 
 import (
+	"net/http"
+
 	"cerberus-examples/internal/services"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type UserData struct {

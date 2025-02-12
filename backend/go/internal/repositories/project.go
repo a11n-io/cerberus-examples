@@ -2,8 +2,9 @@ package repositories
 
 import (
 	"database/sql"
-	"github.com/google/uuid"
 	"log"
+
+	"github.com/google/uuid"
 )
 
 type ProjectRepo interface {
@@ -142,7 +143,9 @@ func (r *projectRepo) Delete(projectId string) (err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	_, err = stmt.Exec(projectId)
 
 	return

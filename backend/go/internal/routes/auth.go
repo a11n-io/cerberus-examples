@@ -1,10 +1,11 @@
 package routes
 
 import (
-	"cerberus-examples/internal/services"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"cerberus-examples/internal/services"
+	"github.com/gin-gonic/gin"
 )
 
 type AuthData struct {

@@ -2,8 +2,9 @@ package repositories
 
 import (
 	"database/sql"
-	"github.com/google/uuid"
 	"log"
+
+	"github.com/google/uuid"
 )
 
 type StoryRepo interface {
@@ -68,7 +69,9 @@ func (r *storyRepo) create(sprintId, description string, tx *sql.Tx) (story Stor
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	id := uuid.New().String()
 	_, err = stmt.Exec(id, sprintId, description)
 	if err != nil {
@@ -96,7 +99,9 @@ func (r *storyRepo) FindBySprint(sprintId string) (stories []Story, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	rows, err := stmt.Query(sprintId)
 	if err != nil {
 		return
@@ -156,7 +161,9 @@ func (r *storyRepo) get(storyId string, tx *sql.Tx) (story Story, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	var sprintId, description, status string
 	var userId sql.NullString
 	var estimation int
@@ -188,7 +195,9 @@ func (r *storyRepo) Estimate(storyId string, estimation int) (story Story, err e
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	_, err = stmt.Exec(estimation, storyId)
 	if err != nil {
 		log.Println(err)
@@ -221,7 +230,9 @@ func (r *storyRepo) ChangeStatus(storyId, status string) (story Story, err error
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	_, err = stmt.Exec(status, storyId)
 	if err != nil {
 		log.Println(err)
@@ -253,7 +264,9 @@ func (r *storyRepo) Assign(storyId, userId string) (story Story, err error) {
 		log.Println(err)
 		return
 	}
-	defer stmt.Close()
+	defer func() {
+		_ = stmt.Close()
+	}()
 	_, err = stmt.Exec(userId, storyId)
 	if err != nil {
 		log.Println(err)

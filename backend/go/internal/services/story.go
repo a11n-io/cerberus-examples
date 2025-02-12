@@ -1,10 +1,11 @@
 package services
 
 import (
-	"cerberus-examples/internal/database"
-	"cerberus-examples/internal/repositories"
 	"context"
 	"fmt"
+
+	"cerberus-examples/internal/database"
+	"cerberus-examples/internal/repositories"
 )
 
 type StoryService interface {

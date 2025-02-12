@@ -1,11 +1,12 @@
 package routes
 
 import (
-	"cerberus-examples/internal/services"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+
+	"cerberus-examples/internal/services"
+	"github.com/gin-gonic/gin"
 )
 
 type SprintData struct {
