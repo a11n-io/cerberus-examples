@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
-import {AccessGuard, Permissions, Roles, Users} from "@a11n-io/cerberus-reactjs";
+import {CerberusContext, AccessGuard, Permissions, Roles, Users, useFetch as cerberusFetch} from "@a11n-io/cerberus-reactjs";
 import "@a11n-io/cerberus-reactjs/dist/index.css"
 import {Button, Col, Container, Form, ListGroup, ListGroupItem, Row, Tab, Tabs} from "react-bootstrap";
 import Loader from "../../uikit/Loader";
@@ -25,8 +25,9 @@ export default function Settings() {
 
 function AddUser() {
     const authCtx = useContext(AuthContext)
+    const cerberusCtx = useContext(CerberusContext)
     const { post, loading } = useFetch('/api/')
-    const {get} = useFetch(`${process.env.REACT_APP_CERBERUS_API_HOST}/api/`) // get roles from cerberus
+    const {get} = cerberusFetch(`${process.env.REACT_APP_CERBERUS_API_HOST}/`) // get roles from cerberus
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [name, setName] = useState("")
@@ -35,17 +36,18 @@ function AddUser() {
 
     useEffect(() => {
         get(`roles?sort=name&order=asc&skip=0&limit=100`, {
-            "Authorization": "Bearer " + authCtx.user.cerberusToken
+            Authorization: 'Bearer ' + cerberusCtx.apiTokenPair.accessToken
         })
             .then(r => {
+                console.log('roles:', r)
                 if (r && r.page) {
                     setRoles(r.page)
                 } else {
                     setRoles([])
                 }
             })
-            .catch(e => console.error(e))
-    }, [])
+            .catch(e => console.error('roles fetch error:', e))
+    }, [cerberusCtx.apiTokenPair.accessToken])
 
     function handleEmailChanged(e) {
         setEmail(e.target.value)

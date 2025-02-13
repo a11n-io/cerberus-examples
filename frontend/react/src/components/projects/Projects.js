@@ -39,6 +39,7 @@ function ProjectList() {
     }, [])
 
     function handleProjectSelected(e) {
+        console.log('selected', e)
         const projectId = e.target.getAttribute('data-val1')
 
         if (selectedProject !== null && selectedProject !== undefined) {

@@ -20,7 +20,6 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - SALT_ROUNDS=10
       - CERBERUS_HOST=https://cerberus-api.a11n.io
-      #- CERBERUS_HOST=http://host.docker.internal:8000 (self hosted api)
       - CERBERUS_API_KEY=${CERBERUS_API_KEY}
       - CERBERUS_API_SECRET=${CERBERUS_API_SECRET}
     extra_hosts:

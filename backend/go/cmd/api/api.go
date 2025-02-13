@@ -74,6 +74,8 @@ func main() {
 			// App context
 			ctx := context.Background()
 
+			log.Printf("getting cerberus client. host: %s, key: %s, secret: %s", cerberusHost, cerberusApiKey, cerberusApiSecret)
+
 			cerberusClient := cerberus.NewClient(cerberusHost, cerberusApiKey, cerberusApiSecret)
 
 			cdriver, err := cerberusmigrate.WithInstance(cerberusClient, &cerberusmigrate.Config{})

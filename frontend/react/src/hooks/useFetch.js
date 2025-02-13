@@ -16,8 +16,8 @@ export default function useFetch(baseUrl) {
         hdrs = {
             ...hdrs,
             "Authorization": "Bearer " + authCtx.user.token,
-            "CerberusAccessToken": cerberusCtx.apiTokenPair.accessToken,
-            "CerberusRefreshToken": cerberusCtx.apiTokenPair.refreshToken
+            // "CerberusAccessToken": cerberusCtx.apiTokenPair.accessToken,
+            // "CerberusRefreshToken": cerberusCtx.apiTokenPair.refreshToken
         }
     }
 
