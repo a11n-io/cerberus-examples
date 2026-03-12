@@ -4,3 +4,4 @@
 /frontend/react/node_modules/
 /frontend/react/.env.development
 /frontend/react/.env.production
+/frontend/react/build/

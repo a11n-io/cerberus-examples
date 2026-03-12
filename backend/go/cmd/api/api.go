@@ -12,6 +12,7 @@ import (
 	"cerberus-examples/internal/server"
 	"cerberus-examples/internal/services"
 	"cerberus-examples/internal/utils"
+
 	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/golang-migrate/migrate/v4"
 	cerberusmigrate "github.com/golang-migrate/migrate/v4/database/cerberus"
@@ -49,7 +50,7 @@ func main() {
 			},
 			&cli.StringFlag{
 				Name:        "cerberusHost",
-				Value:       "https://cerberus-api.a11n.io:443",
+				Value:       "https://cerberus-api-test.a11n.io:443",
 				Usage:       "Cerberus API host",
 				Destination: &cerberusHost,
 				EnvVars:     []string{"CERBERUS_HOST"},

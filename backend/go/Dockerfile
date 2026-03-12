@@ -5,6 +5,7 @@ ENV GO111MODULE=on
 WORKDIR /app
 #COPY go.mod .
 #COPY go.sum .
+#COPY .env .
 COPY ./ /app
 RUN go mod download
 RUN CGO_ENABLED=1 go build cmd/api/api.go
