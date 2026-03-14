@@ -98,6 +98,8 @@ func (s *webServer) JWTAuthRequired(c *gin.Context) {
 		RefreshToken: c.GetHeader("CerberusRefreshToken"),
 	}
 
+	log.Printf("cerberusTokenPair: %v", cerberusTokenPair)
+
 	// Set userId and cerberusToken for route handlers
 	c.Set("userId", userId)
 	c.Set("accountId", accountId)

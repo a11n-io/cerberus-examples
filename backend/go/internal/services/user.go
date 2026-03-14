@@ -9,6 +9,7 @@ import (
 	"cerberus-examples/internal/database"
 	"cerberus-examples/internal/repositories"
 	"cerberus-examples/internal/services/jwtutils"
+
 	cerberus "github.com/a11n-io/go-cerberus"
 )
 
@@ -114,6 +115,8 @@ func (s *userService) Login(ctx context.Context, email string, password string) 
 	if err != nil {
 		return repositories.User{}, err
 	}
+
+	log.Printf("got cerberusToken for user %v: %s", user, cerberusToken)
 
 	subject := user.Id
 	token, err := jwtutils.Sign(subject, toClaims(user), s.jwtSecret)

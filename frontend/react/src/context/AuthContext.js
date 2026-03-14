@@ -16,6 +16,7 @@ function AuthProvider(props) {
     }
 
     const login = (user) => {
+        console.log("logged in user", user)
         setUser(user)
         cerberusCtx.setApiTokenPair(user.cerberusTokenPair)
     }
