@@ -1,13 +1,11 @@
 module cerberus-examples
 
-go 1.21.0
-
-toolchain go1.23.0
+go 1.26
 
 replace github.com/golang-migrate/migrate/v4 => github.com/a11n-io/migrate/v4 v4.15.16
 
 require (
-	github.com/a11n-io/go-cerberus v0.3.41
+	github.com/a11n-io/go-cerberus v0.3.42
 	github.com/gin-contrib/cors v1.7.3
 	github.com/gin-gonic/gin v1.10.0
 	github.com/golang-jwt/jwt/v4 v4.5.1

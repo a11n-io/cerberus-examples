@@ -178,7 +178,6 @@ func main() {
 				}
 
 				for _, user := range users {
-
 					err = cerberusClient.ExecuteWithCtx(mctx,
 						cerberusClient.CreateUserCmd(user.Id, user.Email, user.Name))
 					if err != nil {

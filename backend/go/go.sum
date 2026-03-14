@@ -1,5 +1,5 @@
-github.com/a11n-io/go-cerberus v0.3.41 h1:iixMQFTo2PsmE1eFcJNgGF8t4/g33YJVPYjV8UVPeFw=
-github.com/a11n-io/go-cerberus v0.3.41/go.mod h1:XdOzfM+J0Z+V8J96m0T/4HA+fosAXIJz4QIi2RL9QM0=
+github.com/a11n-io/go-cerberus v0.3.42 h1:/HVuf1gfopnv9fxR0MM6XYLTGeVVaqw6bRy+LEXD7u4=
+github.com/a11n-io/go-cerberus v0.3.42/go.mod h1:gVGeL57aM+9XPcjOBB8J6om/g0P2gSdEPpuJQ6nDsrc=
 github.com/a11n-io/migrate/v4 v4.15.16 h1:4hK+oQrfq8HbOUqVy2JeS/l3pWoqDZa1SOnhrtCrBAI=
 github.com/a11n-io/migrate/v4 v4.15.16/go.mod h1:oYRQfHPYatZJOSAiqS/dWlDR+ooT/Iou8iyE51rWbOc=
 github.com/bytedance/sonic v1.12.8 h1:4xYRVRlXIgvSZ4e8iVTlMF5szgpXd4AfvuWgA8I8lgs=
