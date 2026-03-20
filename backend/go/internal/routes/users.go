@@ -2,10 +2,12 @@ package routes
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"cerberus-examples/internal/common"
 	"cerberus-examples/internal/services"
+
 	cerberus "github.com/a11n-io/go-cerberus"
 	"github.com/gin-gonic/gin"
 )
@@ -67,10 +69,11 @@ func (r *userRoutes) Add(c *gin.Context) {
 }
 
 func (r *userRoutes) GetAll(c *gin.Context) {
-
+	log.Printf("get all users")
 	user, err := r.userService.GetAll(
 		c,
 	)
+	log.Printf("got all users: %v, %v", user, err)
 	if err != nil {
 		c.AbortWithStatusJSON(400, jsonError(err))
 		return

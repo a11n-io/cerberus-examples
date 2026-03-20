@@ -1,21 +1,32 @@
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
-import {CerberusContext, AccessGuard, Permissions, Roles, Users, useFetch as cerberusFetch} from "@a11n-io/cerberus-reactjs";
+import {
+    CerberusContext,
+    AccessGuard,
+    Permissions,
+    Roles,
+    Users,
+    useFetch as cerberusFetch,
+    useAccess
+} from "@a11n-io/cerberus-reactjs";
 import "@a11n-io/cerberus-reactjs/dist/index.css"
 import {Button, Col, Container, Form, ListGroup, ListGroupItem, Row, Tab, Tabs} from "react-bootstrap";
 import Loader from "../../uikit/Loader";
 import useFetch from "../../hooks/useFetch";
 
 export default function Settings() {
+    const authCtx = useContext(AuthContext)
+    const [userRoleAccess, setUserRoleAccess] = useState(false)
+    useAccess(authCtx.user.accountId, "ChangeAccountPermissions", setUserRoleAccess)
 
     return <>
-        <Tabs defaultActiveKey='users' className='mb-3'>
-            <Tab eventKey='users' title='Users'>
-                <Users NoUserSelectedComponent={AddUser}/>
-            </Tab>
-            <Tab eventKey='roles' title='Roles'>
-                <Roles />
-            </Tab>
+        <Tabs defaultActiveKey='permissions' className='mb-3'>
+                <Tab eventKey='users' title='Users' disabled={!userRoleAccess}>
+                    <Users NoUserSelectedComponent={AddUser}/>
+                </Tab>
+                <Tab eventKey='roles' title='Roles' disabled={!userRoleAccess}>
+                    <Roles />
+                </Tab>
             <Tab eventKey='permissions' title='Permissions'>
                 <AccountPermissions />
             </Tab>

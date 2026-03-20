@@ -161,6 +161,7 @@ func (s *userService) Add(ctx context.Context, email, plainPassword, name, roleN
 }
 
 func (s *userService) GetAll(ctx context.Context) ([]cerberus.User, error) {
+
 	return s.cerberusClient.GetUsers(ctx)
 }
 
