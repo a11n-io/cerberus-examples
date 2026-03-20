@@ -1,4 +1,3 @@
-version: "3"
 
 volumes:
   # locally bound volume so that the database can be explored on the host
